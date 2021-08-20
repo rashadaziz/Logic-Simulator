@@ -180,25 +180,40 @@ function propagateChanges() {
 }
 // NOT FINISHED
 function saveCircuit(e) {
-  // TODO: add modal for save menu
-  const input = document.querySelector(".circuit-name");
-  if (!input.classList.contains("show")) {
-    input.classList.add("show");
-  } else {
-    input.classList.remove("show");
-    const c = circuitMaker();
-    // resetStates(c);
-    const circuitToSave = new Circuit(c[0], c[1], c[2]);
-    savedCircuits[`${input.value}`] = circuitToSave;
+  modal.classList.add("active");
+  overlay.classList.add("active");
+  deleteButton.style.display = "none";
 
-    let button = document.createElement("button");
-    button.classList.add("custom-btn");
-    button.classList.add("btn-3");
-    button.id = input.value;
-    button.innerHTML = `<span>${input.value.toUpperCase()} Gate</span>`;
-    button.addEventListener("click", addSavedCircuit);
-    masterControl.appendChild(button);
-    clearBoard();
+  const header = document.querySelector(".title");
+  header.innerText = "Save Circuit";
+
+  let container = document.createElement("div");
+  container.classList.add("container");
+  container.innerHTML = `<input type="text" class="circuit-name show" placeholder="Enter Circuit Name">
+  <button class="save-in-modal custom-btn btn-3"><span>Save</span></button>`;
+  modalContent.append(container);
+
+  const saveButton = document.querySelector(".save-in-modal");
+
+  if (Object.keys(components).length > 0) {
+    saveButton.addEventListener("click", () => {
+      const input = document.querySelector(".circuit-name");
+      const c = circuitMaker();
+
+      const circuitToSave = new Circuit(c[0], c[1], c[2]);
+      savedCircuits[`${input.value}`] = circuitToSave;
+
+      let button = document.createElement("button");
+      button.classList.add("custom-btn");
+      button.classList.add("btn-3");
+      button.id = input.value;
+      button.innerHTML = `<span>${input.value.toUpperCase()} Gate</span>`;
+      button.addEventListener("click", addSavedCircuit);
+      masterControl.appendChild(button);
+      input.innerText = "";
+      closeModal.click();
+      clearBoard();
+    });
   }
 }
 function addSavedCircuit(e) {
@@ -323,10 +338,15 @@ closeModal.addEventListener("click", close);
 
 function close(e) {
   const modal = e.currentTarget.parentNode.parentNode;
+  const header = document.querySelector(".title");
   modal.classList.remove("active");
   overlay.classList.remove("active");
   currentSelectedComponent = null;
-  modalContent.innerHTML = "";
+  setTimeout(() => {
+    modalContent.innerHTML = "";
+    deleteButton.style.display = "block";
+    header.innerText = "Edit Component";
+  }, 200);
 }
 /********** 
 COMPONENT LOGIC
