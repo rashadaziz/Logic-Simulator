@@ -1,5 +1,5 @@
 import interact from "https://cdn.interactjs.io/v1.10.11/interactjs/index.js";
-import LeaderLine from "https://cdn.jsdelivr.net/gh/rashadaziz/Logic-Simulator/leader-line.min.js";
+import LeaderLine from "https://cdn.jsdelivr.net/gh/rashadaziz/Logic-Simulator/dependencies/leader-line.min.js";
 import cloneDeep from "https://cdn.jsdelivr.net/npm/lodash-es@4.17.21/cloneDeep.js";
 const components = {
   //id: {wires: [], object: instanceof Component/Circuit, portCount: {inputs: Number, outputs: Number}}
